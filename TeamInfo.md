@@ -13,7 +13,7 @@
 | Member2     |    Taraka Vignesh Mullapudi    |
 | Member2     |  tvm3@illinois.edu |
 | Member3     |   Sai Venkata Abhijith Geda                     |
-| Member3     |                        |
+| Member3     |      geda2@illinois.edu                  |
 
 ## Project Information
 
