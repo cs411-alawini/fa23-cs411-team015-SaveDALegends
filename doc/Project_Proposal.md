@@ -34,14 +34,14 @@ Point to be noted: Only admins can make changes to the database entries of athle
 
 ##Low-Fidelity UI Mockup
 1)By entering the website the user will be asked to login, the webpage looks like below:
-![Alt text](<../images/login page.png>)
+![Alt text](<../doc/images/login page.png>)
 The people can login either as user or admin based on their privileges or can signup as a new user or skip the login
 
 2)Upon logging in the users will be redirected to a home search page where they can search based on different categories:
-![Alt text](../images/Homepage.png)
+![Alt text](../doc/images/Homepage.png)
 
 3)The user can click on one of the options and will be redirected to the next page, for example if the user click on country option they will be redirected to the following page where they can sort the records or search for a record
-![Alt text](../images/country_search.png)
+![Alt text](../doc/images/country_search.png)
 
 The users can click on particular country or the medals to have a detailed view, and the design will be similar for the other search filters as well.
 
