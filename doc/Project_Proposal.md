@@ -17,7 +17,7 @@ Champion Voyage is like a treasure map for sports lovers. It's a special databas
 When you visit Champion Voyage, you can explore which countries are the best at sports, and you can even meet the athletes, coaches, and other helpers who made these victories happen. It's like a journey into the heart of sports history, and it's designed to be super easy to use. Whether you're a big sports fan, a curious explorer, or a history buff, Champion Voyage is here to help you discover the stories of champions from all around the world. Plus, it's one of a kind – there's nothing else like it out there. This project can grow even bigger and better in the future, so there's always something new to explore.
  
 
-## Usefulness:
+## Usefulness
 Champion Voyage is a highly useful application for sports enthusiasts, historians, and researchers. It offers a comprehensive database of global sports achievements, allowing users to easily discover which countries have won medals in various sports events. What sets it apart is its in-depth profiles of the athletes, coaches who contributed to these victories. While there are many higher level statstics of olympic data on the internet there is  no application that not only just provides medal counts but also delving into the details of humans behind the medals, offering a richer and more engaging perspective on sporting success. This makes our Project unique. Inspired by the Olympics, it provides a unique opportunity to explore the excitement of international sports achievements. With its user-friendly design and unparalleled depth of information, Champion Voyage is a valuable resource that sets a new standard in the world of sports databases.
 
 ## Realness
