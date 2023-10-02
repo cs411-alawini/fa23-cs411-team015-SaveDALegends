@@ -1,11 +1,13 @@
-#The UML for our schema is: 
+# The UML for our schema is: 
 ![Alt text](images/UML.png)
 
 
 # Description of Relationships in UML
 There are three relationships Belongs, Plays and PlaysFor
 1)Belongs is a many to many relationship and it indicates an Athlete can belong to one or more teams and similarly a Team can have one or more Athletes. An athlete can belong to a team either as a Coach or a Player this is determined by the Role relationship attribute which is specific to this relationship.
+
 2)Plays is a many to many relationship and it indicates a Team can play one or more Sports and similarly a Sport can be played by One or more Teams. The position won for a Team in a given Sport can be determined by the Relationship attribute Position.
+
 3)PlaysFor is a many to one relationship and it indiactes a Team can play for only one country and a Country can have multiple Teams.
 
 # Converting UML to relational schema yields the following:
@@ -112,12 +114,19 @@ No need of normalisation it already exists in BCNF & 3NF.
 
 # Assumption/details to be known of:
 1) Athlete can either be a coach or a player this is determined by the role attribute which belongs to relation "Belongs"
+
 2) All participations from team only no direct participation from Athlete in any sport
+
 3) A team should participate in at least one sport and should contain atleast one player
+
 4) "Plays" relation has an attribute known as position which indicates the rank/position won for a specific pair of <team,sport>
+
 5) All the medals(position 1 or 2 or 3) are given to a team only, which in turn consists of athletes
-6) If a team wins a medal(position 1 or 2 or 3) it means that all the athletes in the team who are players can win the medal.
-7) A user should have unique email, userid and phoneno and thus are mandatory 
+
+6) If a team wins a medal(position 1 or 2 or 3) it means that all the athletes in the team who are players can win the medal
+
+7) A user should have unique email, userid and phoneno and thus are mandatory
+ 
 8) Country table contains only the countries that are part of Olympics
 
 
