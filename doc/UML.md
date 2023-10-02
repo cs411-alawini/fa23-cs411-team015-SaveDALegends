@@ -51,7 +51,7 @@ The candidate key is only teamid. Hence for all the FDs the L.H.S is a superkey 
 So, It Satisfies both 3NF & BCNF.
 No need of normalisation it already exists in BCNF & 3NF.
 
-*6) Belongs(Athleteid: VARCHAR(20) [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [FK to Team.Teamid], Role: ENUM, [PK] (Athleteid, Teamid))
+6) Belongs(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [PK] [FK to Team.Teamid], Role: ENUM)
 Belongs is a Many to Many relationship consisting of Athlete and Team, this means an athlete can be part of multiple teams and a team can have multiple athletes. One important point to note is that Role attribute is a relational attribute for Belongs.
 It can have two values either player or a coach, which means an athlete can belong to a team as either a player or a coach.
 Athleteid and Teamid are foreign keys referencing Athlete and Team tables respectively.
@@ -67,13 +67,13 @@ So to convert this into BCNF
 We find the closure of Athleteid which in this case is only Athleteid and Role
 
 So we split the relation into following:
-Belongs(Athleteid: VARCHAR(20) [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [FK to Team.Teamid], [PK] (Athleteid, Teamid)) 
+Belongs(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [PK] [FK to Team.Teamid]) 
 and 
 Roles(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Role:ENUM)
 
 Now after Normalisation the new relations are as follows:
 
-a) Belongs(Athleteid: VARCHAR(20) [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [FK to Team.Teamid], [PK] (Athleteid, Teamid))
+a) Belongs(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [PK] [FK to Team.Teamid])
 For this there are no FDs so this relation is in BCNF and hence satisfies both 3NF & BCNF.
 
 b) Roles(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Role:ENUM)
@@ -84,7 +84,7 @@ The candidate key is Athleteid and for the given FD Athleteid is a superkey so t
 In the above scenario, we have only one FD which can be preserved even after splitting into BCNF, hence we are not losing any FDs while splitting into BCNF and also even if we choose 3NF we will get the same relations as BCNF. So, since splitting into BCNF is not leading to any loss of FDs and splitting into 3NF is not leading to added redundancies we can choose either of that as there is no difference. We go ahead and chosen the higher form which is BCNF.
 
 
-*7) Plays(Teamid: VARCHAR(50) [FK to Team.Teamid], Sportid: VARCHAR(50) [FK to Sport.Sportid], Position: INT, [PK] (Teamid, Sportid))
+7) Plays(Teamid: VARCHAR(50) [PK] [FK to Team.Teamid], Sportid: VARCHAR(50) [PK] [FK to Sport.Sportid], Position: INT)
 Plays is a Many to Many relationship consisting of Sport and Team, this means a team can be part of multiple sports and a sport can have multiple teams. One important point to note is that Position attribute is a relational attribute for Plays. The attributes
 Sportid and Teamid are foreign keys referencing Sport and Team tables respectively.
 The primary key is composite consisting both Sportid and Teamid.
@@ -107,27 +107,33 @@ No need of normalisation it already exists in BCNF & 3NF.
 
 5) Team(Teamid: VARCHAR(50) [PK], TeamName: VARCHAR(50), Countryname: VARCHAR(20) [FK to Country.Countryname])
 
-*6) Belongs(Athleteid: VARCHAR(20) [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [FK to Team.Teamid], [PK] (Athleteid, Teamid))
+6) Belongs(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Teamid: VARCHAR(50) [PK] [FK to Team.Teamid])
 
-7) Roles(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Role:ENUM)
+7) Roles(Athleteid: VARCHAR(20) [PK] [FK to Athlete.Athleteid], Role: ENUM)
 
-*8) Plays(Teamid: VARCHAR(50) [FK to Team.Teamid], Sportid: VARCHAR(50) [FK to Sport.Sportid], Position: INT, [PK] (Teamid, Sportid))
+8) Plays(Teamid: VARCHAR(50) [PK] [FK to Team.Teamid], Sportid: VARCHAR(50) [PK] [FK to Sport.Sportid], Position: INT)
 
-# Assumption/details to be known of:
-1) Athlete can either be a coach or a player this is determined by the role attribute which belongs to relation "Belongs"
+# Assumptions to be known of:
 
-2) All participations from team only no direct participation from Athlete in any sport
+# Athlete:
+a) Each Athlete is identified by a unique Athleteid and has name and gender
+b) Athlete can belong to a team either as a Coach/Player which is determined by the Role relationship attribute for "Belongs" Relationship
+c) Athlete can participate in a sport only via a team, so Athlete has to be part of atleast one team
 
-3) A team should participate in at least one sport and should contain atleast one player
+# Team:
+a) A Team must have atleast one athlete and must participate in atleast one Sport
+b) Each Team has Teamid which is unique and a Teamname
+c) A Team wins a gold, silver and bronze for positions 1, 2 and 3 respectively. Position is a relationship attribute for "Plays" relationship
+d) If a team wins a medal all the players in that team also get a medal
 
-4) "Plays" relation has an attribute known as position which indicates the rank/position won for a specific pair of <team,sport>
+# Sport:
+a) A Sport Relation contains the details of the sports in the form of SportName and its Category (Eg: SportName: Running, Category: 100m Mens)
+b) A Sport must be played by atleast one team
 
-5) All the medals(position 1 or 2 or 3) are given to a team only, which in turn consists of athletes
+# Country:
+a) Country relation contains only the countries that are part of Olympics
+b) Each country has a unique Countryname
 
-6) If a team wins a medal(position 1 or 2 or 3) it means that all the athletes in the team who are players can win the medal
-
-7) A user should have unique email, userid and phoneno and thus are mandatory
- 
-8) Country table contains only the countries that are part of Olympics
-
-
+# User:
+a) A user should have unique email, userid and phoneno and thus are mandatory
+b) Each user has attributes email, userid, phoneno which are unique and also a name and password
