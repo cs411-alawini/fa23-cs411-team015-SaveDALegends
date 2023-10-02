@@ -4,11 +4,11 @@
 
 # Description of Relationships in UML
 There are three relationships Belongs, Plays and PlaysFor
-1) Belongs is a many to many relationship and it indicates an Athlete can belong to one or more teams and similarly a Team can have one or more Athletes. An athlete can belong to a team either as a Coach or a Player this is determined by the Role relationship attribute which is specific to this relationship.
+1) Belongs is a many to many relationship between Athlete and Team and it indicates an Athlete can belong to one or more teams and similarly a Team can have one or more Athletes. An athlete can belong to a team either as a Coach or a Player this is determined by the Role relationship attribute which is specific to this relationship.
 
-2) Plays is a many to many relationship and it indicates a Team can play one or more Sports and similarly a Sport can be played by One or more Teams. The position won for a Team in a given Sport can be determined by the Relationship attribute Position.
+2) Plays is a many to many relationship between Team and Sport and it indicates a Team can play one or more Sports and similarly a Sport can be played by One or more Teams. The position won for a Team in a given Sport can be determined by the Relationship attribute Position.
 
-3) PlaysFor is a many to one relationship and it indiactes a Team can play for only one country and a Country can have multiple Teams.
+3) PlaysFor is a many to one relationship between Team and Country and it indiactes a Team can play for only one country and a Country can have multiple Teams.
 
 # Converting UML to relational schema yields the following:
 
