@@ -127,7 +127,7 @@ c) A Team wins a gold, silver and bronze for positions 1, 2 and 3 respectively. 
 d) If a team wins a medal all the players in that team also get a medal
 
 # Sport:
-a) A Sport Relation contains the details of the sports in the form of SportName and its Category (Eg: SportName: Running, Category: 100m Mens)
+a) A Sport Relation contains the details of the sports in the form of SportName and its Category (Eg: SportName: 3x3 Basketball, Category: Basketball)
 b) A Sport must be played by atleast one team
 
 # Country:
