@@ -39,10 +39,14 @@ The candidate key is only Sportid. Hence for all the FDs the L.H.S is a superkey
 So, It Satisfies both 3NF & BCNF.
 No need of normalisation it already exists in BCNF & 3NF.
 
-4) Country (Countryname: VARCHAR(20) [PK])
-It has only one attribute and it satisfies both BCNF & 3NF.
+4) Country (Countryname: VARCHAR(20) [PK], NationalSport: INT)
+The FDs are as follows:
+Countryname->NationalSport
+The candidate key is only Countryname. Hence for all the FDs the L.H.S is a superkey and thus Country relation is in BCNF.
+So, It Satisfies both 3NF & BCNF.
+No need of normalisation it already exists in BCNF & 3NF.
 
-5) Team(Teamid: VARCHAR(50) [PK], TeamName: VARCHAR(50), Countryname: VARCHAR(20) [FK to Country.Countryname])
+6) Team(Teamid: VARCHAR(50) [PK], TeamName: VARCHAR(50), Countryname: VARCHAR(20) [FK to Country.Countryname])
 The attribure Countryname is added to the Team relation as foreign key referencing Countryname attribute in Country Relation, because Team and Country are part of a Many to One Relationship named "Playsfor", and hence Team can Play for only one country.
 
 The FDs are as follows:
@@ -103,7 +107,7 @@ No need of normalisation it already exists in BCNF & 3NF.
 
 3) Sport(Sportid: VARCHAR(50) [PK], Sportname: VARCHAR(50), Category: VARCHAR(50))
 
-4) Country(Countryname: VARCHAR(20) [PK])
+4) Country(Countryname: VARCHAR(20) [PK], NationalSport: VARCHAR(50))
 
 5) Team(Teamid: VARCHAR(50) [PK], TeamName: VARCHAR(50), Countryname: VARCHAR(20) [FK to Country.Countryname])
 
@@ -133,6 +137,7 @@ b) A Sport must be played by atleast one team
 # Country:
 a) Country relation contains only the countries that are part of Olympics
 b) Each country has a unique Countryname
+c) Each country has an attribute named NationalSport indicating what is the national sport for that country.
 
 # User:
 a) A user should have unique email, userid and phoneno and thus are mandatory
