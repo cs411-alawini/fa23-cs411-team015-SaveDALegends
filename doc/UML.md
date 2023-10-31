@@ -39,7 +39,7 @@ The candidate key is only Sportid. Hence for all the FDs the L.H.S is a superkey
 So, It Satisfies both 3NF & BCNF.
 No need of normalisation it already exists in BCNF & 3NF.
 
-4) Country (Countryname: VARCHAR(20) [PK], NationalSport: INT)
+4) Country (Countryname: VARCHAR(20) [PK], NationalSport: VARCHAR(50))
 The FDs are as follows:
 Countryname->NationalSport
 The candidate key is only Countryname. Hence for all the FDs the L.H.S is a superkey and thus Country relation is in BCNF.
