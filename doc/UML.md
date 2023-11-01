@@ -1,5 +1,5 @@
 # The UML for our schema is: 
-![Alt text](images/UML.png)
+![Alt text](images/UML_revised.png)
 
 
 # Description of Relationships in UML
