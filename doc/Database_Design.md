@@ -93,31 +93,54 @@ select count(*) as plays_count from plays;
 # Advanced Queries
 
 ## Query 1
-List top 15 countries in olympics based on medals count
+List the countries based on descending order of medals count and display total players and total number of medals.
+
 
 ### Query:
-select Countryname, count(teamid) as total_medals
+select countryname,total_medals, total_players
 
 
-from plays natural join team 
+from
+
+
+(select Countryname, count(teamid) as total_medals
+
+
+from plays natural join team
 
 
 where position < 4
 
 
-group BY Countryname
+group BY Countryname) as Medal_cnt
 
 
-order by total_medals DESC
+natural join
 
 
-LIMIT 15;
+
+(select countryname, count(athleteid) as total_players
+
+
+from Team natural join belongs natural join Roles
+
+
+where role = "Player"
+
+
+group by countryname) as Player_cnt
+
+
+order by total_medals desc
+
+
+limit 15;
 
 ## Query 1 Ouput 
 The output is limited to 15 rows
 
 
-![Alt text](images/q1_op.png)
+![Alt text](images/q1_refined.png)
 
 ## Query 2
 For each sport find the country with gold, silver & bronze and no of countries contested
@@ -183,6 +206,44 @@ We limit the ouput to 15 entries
 # Indexing
 
 ## Query 1
+Show index screenshots default
+
+
+## Plays
+![Alt text](images/plays_def_1.png)
+
+## Team
+![Alt text](images/team_def_1.png)
+
+## Belongs
+![Alt text](images/belongs_def_1.png)
+
+## Roles
+![Alt text](images/roles_def_1.png)
+
+## Explain Analyze before adding new indexes
+![Alt text](images/exp_def_q1.png)
+
+## Adding new index on Plays(position)
+![Alt text](images/q1_pos.png)
+
+
+## Explain analyze after Adding new index on Plays(position)
+![Alt text](images/q1_exp.png)
+
+## Adding new index on Roles(role)
+![Alt text](images/q1_roles.png)
+
+## Explain analyze after Adding new index on Roles(role)
+![Alt text](images/q1_roles_exp.png)
+
+## Showing indexes where both Roles(role) and Plays(position) are used
+![Alt text](images/q1_roles.png)
+![Alt text](images/q1_pos.png)
+
+## Explain Analyze after adding index on Roles(role) and Plays(position)
+![Alt text](images/q1_both_exp.png)
+
 
 ## Query 2
 Show index screenshots default
