@@ -199,7 +199,7 @@ Show index screenshots default
 ![Alt text](images/exp_def_q2.png)
 
 
-The cost and time taken are: 
+The cost is 86783
 
 
 
@@ -210,7 +210,7 @@ The cost and time taken are:
 ## Explain Analyze after adding index on Sport(sportname)
 ![Alt text](images/q2_sportname.png)
 
-The cost and time taken are:
+The cost is 10963
 
 ## Adding new index on Plays(position)
 ![Alt text](images/q2_position_show.png)
@@ -220,7 +220,7 @@ The cost and time taken are:
 ![Alt text](images/q2_position.png)
 
 
-The cost and time taken are: 
+The cost is 358
 
 ## Showing indexes where both Sport(sportname) and Plays(position) are used
 ![Alt text](images/q2_sportname_show.png)
@@ -231,4 +231,28 @@ The cost and time taken are:
 ![Alt text](images/q2_sportname_position.png)
 
 
-The cost and time taken are: 
+The cost is 116
+
+## Explanation & Analysis
+
+
+### Default indexing
+In the initial stage when indexing is limited to the keys, many attributes are searched and selected based on various query conditions that are not yet indexed. This results in an overhead as the system must retrieve those necessary values without the benefit of indexing. Due to this we observed the highest cost of 86783. 
+
+### Addind new index on Sport(sportname)
+In the query we see that the selection is actually being performed on sportname attribute, so adding index to this particular attribute may reduce the cost because it reduces the overhead of retrieving sportname from sportid which is the default indexing for this table.
+This is observed in the results as the cost is reduced to 10963.
+
+
+### Addind new index on Plays(position)
+In the query we can see that for the last three subqueries where clause is added with position attribute as this operation contributes to fair amount of cost because this is done for every tuple for all the specified subqueries.
+So there is a drastic change in the cost by adding index on position attribute. The cost now is 358.
+
+### Addind new index on Sport(sportname) and Plays(position)
+Finally when both indexes sportname and position are used the total performace got commulated (As both the attributes contributed positively to the cost performance above) and hence the cost got reduced to the lowest possible value which is 116. 
+
+
+# Stage-2 Improvements
+
+## Added new attribute to Country Relation
+Previously country relation has only one attribute Countryname but now we have added new attribute NationalSport.
