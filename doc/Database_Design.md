@@ -229,6 +229,18 @@ Show index screenshots default
 ## Explain Analyze before adding new indexes
 ![Alt text](images/exp_def_q1.png)
 
+Initally, without any added indexes we see that for the Medal_cnt table(first subquery), the join is based on TeamId, for this the cost is 290, the cost for filtering results based on the position is 135.
+
+For the Player_Cnt table(second subquery)we see that the join is based on teamid,AthleteId, the cost for this is 1928 and the cost for filtering based on role attribute is 380.
+
+And for both the subqueries the aggregation of the results is done using the countryname attribute.
+
+In this we see that the main attributes that are contributing to the cost are TeamId, position,countyname, role, athleteid.
+
+
+In the default indexing we already have indexes for the keys and Since TeamId, AthleteId,countryname are keys in the relations used, they already are indexed, so lets try indexing the other attributes from the above mentioned list(position, role) to increase the overall performance of the query.
+
+
 ## Adding new index on Plays(position)
 ![Alt text](images/q1_pos.png)
 
@@ -236,11 +248,21 @@ Show index screenshots default
 ## Explain analyze after Adding new index on Plays(position)
 ![Alt text](images/q1_exp.png)
 
+As in the Medal_cnt temporary table(Subquery 1) we see that the filtering is based on the position attribute, so before adding index to the position attribure the cost for this filtering using the position attribute is 135, and once we added the index for the position attribute the cost reduced to 27.2, but the cost of filtering and joins didnt change for Player_cnt table when compared to the default case, this is expected because the position attribute is not being used  in the first subquery.
+
+
+
+So inorder to increase performance of the Player_Cnt table(First Subquery),we need to index on an attribute that is being used in this part of the query and doesnt already have an index, so we index the role attribute.
+
 ## Adding new index on Roles(role)
 ![Alt text](images/q1_roles.png)
 
 ## Explain analyze after Adding new index on Roles(role)
 ![Alt text](images/q1_roles_exp.png)
+
+As in the Player_cnt temporary table(Subquery 2) we see that the filtering is based on the role attribute, so before adding index to the position attribure the cost for this filtering using the role attribute is 380, and once we added the index for the role attribute the cost reduced to 293, but the cost of filtering and joins didnt change for Medal_cnt table when compared to the default case, this is expected because the role attribute is not being used  in the first subquery.
+
+As, after adding indexes on The position attribute and the role attribute, we indvidually observed cost reductions for Subqueries 1 and 2 respectively. So lets see if we can add indexing to both these attribues and see reduction in cost of both these subqueries.
 
 ## Showing indexes where both Roles(role) and Plays(position) are used
 ![Alt text](images/q1_roles.png)
@@ -248,6 +270,10 @@ Show index screenshots default
 
 ## Explain Analyze after adding index on Roles(role) and Plays(position)
 ![Alt text](images/q1_both_exp.png)
+
+After adding index to both position and role attributes which are individually contributing to the cost reduction of subqueries 1 and 2, indexing both these attributes resulted in the cost reduction of both the subqueries by reducing the cost of filtering in the first subquery from 135  to 27.2, reducing the cost of filtering in the second subquery from 380 to 293 when compared to the default results.
+
+We see that the minimum cost is attained for the case where we are indexing both the role and position attributes, this is expected because both the attributes contribute to the individual cost reduction in both the subqueries.
 
 
 ## Query 2
