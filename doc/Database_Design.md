@@ -181,3 +181,54 @@ We limit the ouput to 15 entries
 ![Alt text](images/q2_op.png)
 
 # Indexing
+
+## Query 1
+
+## Query 2
+Show index screenshots default
+## Sport
+![Alt text](images/sport_def.png)
+
+## Plays
+![Alt text](images/Plays_def.png)
+
+## Team
+![Alt text](images/Team_def.png)
+
+## Explain Analyze before adding new indexes
+![Alt text](images/exp_def_q2.png)
+
+
+The cost and time taken are: 
+
+
+
+## Adding new index on Sport(sportname)
+![Alt text](images/q2_sportname_show.png)
+
+
+## Explain Analyze after adding index on Sport(sportname)
+![Alt text](images/q2_sportname.png)
+
+The cost and time taken are:
+
+## Adding new index on Plays(position)
+![Alt text](images/q2_position_show.png)
+
+
+## Explain Analyze after adding index on Plays(position)
+![Alt text](images/q2_position.png)
+
+
+The cost and time taken are: 
+
+## Showing indexes where both Sport(sportname) and Plays(position) are used
+![Alt text](images/q2_sportname_show.png)
+![Alt text](images/q2_position_show.png)
+
+
+## Explain Analyze after adding index on Sport(sportname) and Plays(position)
+![Alt text](images/q2_sportname_position.png)
+
+
+The cost and time taken are: 
