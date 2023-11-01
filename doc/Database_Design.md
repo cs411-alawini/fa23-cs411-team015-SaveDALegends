@@ -1,6 +1,6 @@
 # Database Implementation
 
-We implemented teh database locally using MySQL workbench and integrated with VisualStudioCode.
+We implemented the database locally using MySQL workbench and integrated with VisualStudioCode.
 
 The database connection details screenshot is as follows:
 ![Alt text](images/dbms_conn.png)
