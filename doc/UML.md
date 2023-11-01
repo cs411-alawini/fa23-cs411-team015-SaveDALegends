@@ -10,6 +10,10 @@ There are three relationships Belongs, Plays and PlaysFor
 
 3) PlaysFor is a many to one relationship between Team and Country and it indiactes a Team can play for only one country and a Country can have multiple Teams.
 
+4) LikeSport is a many to many relationship between User and Sport which indicates a User can Like any number of sports which will help in personalizing the experience and a Sport can be liked by any number of users.
+
+5) LikeCountry is a many to many relationship between User and Country which indicates a User can Like any number of countries which will help in personalizing the experience and a Country can be liked by any number of users.
+
 # Converting UML to relational schema yields the following:
 
 1) User(Userid: VARCHAR(20) [PK], Name: VARCHAR(255), EmailAddress: VARCHAR(255), Password: VARCHAR(255), Phoneno: VARCHAR(15))
@@ -46,7 +50,7 @@ The candidate key is only Countryname. Hence for all the FDs the L.H.S is a supe
 So, It Satisfies both 3NF & BCNF.
 No need of normalisation it already exists in BCNF & 3NF.
 
-6) Team(Teamid: VARCHAR(50) [PK], TeamName: VARCHAR(50), Countryname: VARCHAR(20) [FK to Country.Countryname])
+5) Team(Teamid: VARCHAR(50) [PK], TeamName: VARCHAR(50), Countryname: VARCHAR(20) [FK to Country.Countryname])
 The attribure Countryname is added to the Team relation as foreign key referencing Countryname attribute in Country Relation, because Team and Country are part of a Many to One Relationship named "Playsfor", and hence Team can Play for only one country.
 
 The FDs are as follows:
@@ -98,6 +102,12 @@ Teamid, Sportid -> Position
 The candidate key is (Sportid,Teamid) and for the given FD the L.H.S is a superkey so this relation is in BCNF. So, It Satisfies both 3NF & BCNF.
 No need of normalisation it already exists in BCNF & 3NF.
 
+8) LikeSport(Userid: VARCHAR(20) [PK] [FK to User.Userid], Sportid: VARCHAR(50) [PK] [FK to Sport.Sportid])
+There are no FDs so the relation is already in both BCNF & 3NF
+
+9) LikeCountry(Userid: VARCHAR(20) [PK] [FK to User.Userid], Countryname: VARCHAR(20) [PK] [FK to Country.Countryname])
+There are no FDs so the relation is already in both BCNF & 3NF
+
 
 # Final relational schema:
 
@@ -117,28 +127,53 @@ No need of normalisation it already exists in BCNF & 3NF.
 
 8) Plays(Teamid: VARCHAR(50) [PK] [FK to Team.Teamid], Sportid: VARCHAR(50) [PK] [FK to Sport.Sportid], Position: INT)
 
+9) LikeSport(Userid: VARCHAR(20) [PK] [FK to User.Userid], Sportid: VARCHAR(50) [PK] [FK to Sport.Sportid])
+
+10) LikeCountry(Userid: VARCHAR(20) [PK] [FK to User.Userid], Countryname: VARCHAR(20) [PK] [FK to Country.Countryname])
+
 # Assumptions to be known of:
 
 # Athlete:
 a) Each Athlete is identified by a unique Athleteid and has name and gender
+
+
 b) Athlete can belong to a team either as a Coach/Player which is determined by the Role relationship attribute for "Belongs" Relationship
+
+
 c) Athlete can participate in a sport only via a team, so Athlete has to be part of atleast one team
 
 # Team:
 a) A Team must have atleast one athlete and must participate in atleast one Sport
+
+
 b) Each Team has Teamid which is unique and a Teamname
+
+
 c) A Team wins a gold, silver and bronze for positions 1, 2 and 3 respectively. Position is a relationship attribute for "Plays" relationship
+
+
 d) If a team wins a medal all the players in that team also get a medal
 
 # Sport:
 a) A Sport Relation contains the details of the sports in the form of SportName and its Category (Eg: SportName: 3x3 Basketball, Category: Basketball)
+
+
 b) A Sport must be played by atleast one team
 
 # Country:
 a) Country relation contains only the countries that are part of Olympics
+
+
 b) Each country has a unique Countryname
+
+
 c) Each country has an attribute named NationalSport indicating what is the national sport for that country.
 
 # User:
 a) A user should have unique email, userid and phoneno and thus are mandatory
+
+
 b) Each user has attributes email, userid, phoneno which are unique and also a name and password
+
+
+c) A user can like sports and countries which they frequently visit according to their choice
