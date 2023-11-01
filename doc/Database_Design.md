@@ -256,3 +256,6 @@ Finally when both indexes sportname and position are used the total performace g
 
 ## Added new attribute to Country Relation
 Previously country relation has only one attribute Countryname but now we have added new attribute NationalSport.
+
+## Added new relationships to User relation
+Previously User is not participating in any relationships but now we have added two new relationships LikeSport & LikeCountry which adds a feature of User liking specific countries and sports.
