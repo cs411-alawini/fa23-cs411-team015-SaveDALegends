@@ -146,7 +146,7 @@ The output is limited to 15 rows
 ![Alt text](images/q1_refined.png)
 
 ## Query 2
-For each sport find the country with gold, silver & bronze and no of countries contested.
+For each sport find the winner of  gold, silver & bronze medals and number of countries contested.
 
 This query uses join of multiple relations and aggregation via Group By.
 
