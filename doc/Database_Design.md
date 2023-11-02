@@ -368,7 +368,6 @@ Filtering using Position:reduced to 0.826 from 135
 The Cost for Subquery 3(Silver):
 Filtering using Position:reduced to 0.828 from 1.9
 
-The Cost for Subquery 4(Bronze):
  
 Filtering using Position:reduced to 0.835 from 1.85
 
