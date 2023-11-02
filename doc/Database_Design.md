@@ -291,18 +291,30 @@ Show index screenshots default
 ![Alt text](images/exp_def_q2.png)
 
 
-The cost is 86783
+In this Qquery we are using 4 temporay tables(subqueries), in the first subquery we are using the TeamId, SportId for joining the tables and are grouping by using the SportId attributte, in all the next 3 subqueries, we are using SportId, TeamId to join the relations and are filetering based on position attribute, we are also selecting the sportname the attribute in the first subquery.
 
+So we see that the Attributes that are contibuting to the cost are TeamId, SportId, Position, Sportname.
 
+Since the Attributes TeamId, SportId, Sportname are already keys there will be default indexing based in these values:
 
-## Adding new index on Sport(sportname)
-![Alt text](images/q2_sportname_show.png)
+The cost for Subquery 1(Num_Participants):
+joining using TeamId, SportId: 719
 
+The Cost for Subquery 2(Gold):
+joining using TeamId, SportId: 328
+Filtering using Position: 135
 
-## Explain Analyze after adding index on Sport(sportname)
-![Alt text](images/q2_sportname.png)
+The Cost for Subquery 3(Silver):
+joining using TeamId, SportId: 2647
+Filtering using Position:1.9
 
-The cost is 10963
+The Cost for Subquery 4(Bronze):
+joining using TeamId, SportId: 8538
+Filtering using Position:1.85
+
+and the cost for joining the results of all the subqueries is 86783.
+
+Since the position attribue is contributing significantly to the cost, lets index this attribute and observe the results
 
 ## Adding new index on Plays(position)
 ![Alt text](images/q2_position_show.png)
@@ -311,8 +323,33 @@ The cost is 10963
 ## Explain Analyze after adding index on Plays(position)
 ![Alt text](images/q2_position.png)
 
+After indexing the position attribute the cost of the Subqueries2,3 and 4 are:
+The Cost for Subquery 2(Gold):
 
-The cost is 358
+Filtering using Position:reduced to 0.826 from 135
+
+The Cost for Subquery 3(Silver):
+Filtering using Position:reduced to 0.826 from 1.9
+
+The Cost for Subquery 4(Bronze):
+ 
+Filtering using Position:reduced to 0.826 from 1.85
+
+So we see that the cost reduced signifanctly because of which the total cost of joining all these tables is reduced to 358, which is a very big improvement.
+
+We also see that we are selecting the sportname attribute, but the index is on sportid, so it takes some time to retrive the sportname from the sportid, so lets see if we can minimize the cost by indexing the sportname attribute.
+## Adding new index on Sport(sportname)
+![Alt text](images/q2_sportname_show.png)
+
+
+## Explain Analyze after adding index on Sport(sportname)
+![Alt text](images/q2_sportname.png)
+
+
+After adding the index on the sportname attribute we see that the scan cost of the Sports table using this index is 4.25, where initially when there is no index on the sportname attribute and the selection has to be done based on the sportid index and then retrive the sportname form the sportid, the cost to scan the Sports table in the Num_Partipants is reduced to 4.25 from 5 because of this the join cost was reduced to 166 from 254, also in the Gold table the scan cost is reduced to 0.253 from 1.and the join costs for joining the team and Sport relation are reduced drastically across all the joins for all the subqueries which resulted in a result of all this the total cost of joining all the relations is reduced to 10963 from 86783.
+
+
+
 
 ## Showing indexes where both Sport(sportname) and Plays(position) are used
 ![Alt text](images/q2_sportname_show.png)
@@ -323,25 +360,19 @@ The cost is 358
 ![Alt text](images/q2_sportname_position.png)
 
 
-The cost is 116
+Since both the sportname and the postion attributed when indexed indivdually are contributing to the reduction of costs, we tried indexing both of these attributed together and the costs are reduced as follows:
+ The Cost for Subquery 2(Gold):
 
-## Explanation & Analysis
+Filtering using Position:reduced to 0.826 from 135
 
+The Cost for Subquery 3(Silver):
+Filtering using Position:reduced to 0.828 from 1.9
 
-### Default indexing
-In the initial stage when indexing is limited to the keys, many attributes are searched and selected based on various query conditions that are not yet indexed. This results in an overhead as the system must retrieve those necessary values without the benefit of indexing. Due to this we observed the highest cost of 86783. 
+The Cost for Subquery 4(Bronze):
+ 
+Filtering using Position:reduced to 0.835 from 1.85
 
-### Addind new index on Sport(sportname)
-In the query we see that the selection is actually being performed on sportname attribute, so adding index to this particular attribute may reduce the cost because it reduces the overhead of retrieving sportname from sportid which is the default indexing for this table.
-This is observed in the results as the cost is reduced to 10963.
-
-
-### Addind new index on Plays(position)
-In the query we can see that for the last three subqueries where clause is added with position attribute as this operation contributes to fair amount of cost because this is done for every tuple for all the specified subqueries.
-So there is a drastic change in the cost by adding index on position attribute. The cost now is 358.
-
-### Addind new index on Sport(sportname) and Plays(position)
-Finally when both indexes sportname and position are used the total performace got commulated (As both the attributes contributed positively to the cost performance above) and hence the cost got reduced to the lowest possible value which is 116. 
+And the join costs for joining the team and Sport relation are reduced drastically across all the joins for all the subqueries which resulted in reducing the cost drastically from 86783 to 116.
 
 
 # Stage-2 Improvements
