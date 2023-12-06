@@ -1,0 +1,179 @@
+
+/*
+CREATE TRIGGER BeforeInsertLikeSport
+BEFORE INSERT ON LikeSport
+FOR EACH ROW
+BEGIN
+    DECLARE entryCount INT;
+
+-- Count the number of entries for the given user and sport
+    SELECT COUNT(*) INTO entryCount
+    FROM LikeSport
+    WHERE userid = NEW.userid;
+
+-- Check if the user has less than five entries before allowing the insertion
+    IF entryCount >= 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot add more than five entries for the user';
+    END IF;
+END;
+
+CREATE TRIGGER BeforeInsertLikeCountry
+BEFORE INSERT ON LikeCountry
+FOR EACH ROW
+BEGIN
+    DECLARE entryCount INT;
+
+-- Count the number of entries for the given user and country
+    SELECT COUNT(*) INTO entryCount
+    FROM LikeCountry
+    WHERE userid = NEW.userid;
+
+-- Check if the user has less than five entries before allowing the insertion
+    IF entryCount >= 5 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot add more than five entries for the user';
+    END IF1;
+END;
+
+drop Procedure if EXISTS DisplayCountryStatistics;*/
+/*
+drop Procedure if EXISTS DisplayCountryStatistics;*/
+/*
+CREATE PROCEDURE DisplayCountryStatistics()
+BLOCK1 : BEGIN
+    DECLARE done_countries BOOLEAN DEFAULT FALSE;
+    DECLARE country_name VARCHAR(255);
+    DECLARE medal_country VARCHAR(255);
+    DECLARE gold_count INT DEFAULT 0;
+    DECLARE silver_count INT DEFAULT 0;
+    DECLARE bronze_count INT DEFAULT 0;
+    DECLARE total_medals_count INT DEFAULT 0;
+    DECLARE Position_temp INT DEFAULT 0;
+    DECLARE total_players_count INT DEFAULT 0;
+    DECLARE total_coaches_count INT DEFAULT 0;
+
+    -- Cursor to iterate through each country
+    DECLARE country_cursor CURSOR FOR
+        SELECT DISTINCT Countryname FROM team;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_countries = TRUE;
+
+
+    -- Create a temporary table to store results
+    CREATE TEMPORARY TABLE IF NOT EXISTS stats (
+        Countryname VARCHAR(255),
+        GoldMedals INT,
+        SilverMedals INT,
+        BronzeMedals INT,
+        TotalMedals INT,
+        TotalPlayers INT,
+        TotalCoaches INT
+    );
+
+    OPEN country_cursor;
+
+    -- Loop through each country
+    country_loop: LOOP
+        FETCH country_cursor INTO country_name;
+        IF done_countries THEN
+            LEAVE country_loop;
+        END IF;
+
+        -- Reset counts for the current country
+        SET gold_count = 0;
+        SET silver_count = 0;
+        SET bronze_count = 0;
+        SET total_medals_count = 0;
+        SET total_players_count = 0;
+        SET total_coaches_count = 0;
+
+        BLOCK2: BEGIN
+
+            DECLARE done_medals BOOLEAN DEFAULT FALSE;
+
+            DECLARE medal_cursor CURSOR FOR
+            SELECT Position FROM plays WHERE Teamid IN (SELECT Teamid FROM team WHERE Countryname = country_name);
+
+            DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_medals = TRUE;
+
+       
+
+            OPEN medal_cursor;
+
+        -- Loop through each medal position
+            medal_loop: LOOP
+                FETCH medal_cursor INTO  Position_temp;
+                IF done_medals THEN
+                    LEAVE medal_loop;
+                END IF;
+
+            -- Update medal counts based on position
+                IF Position_temp = 1  THEN
+                    SET gold_count = gold_count + 1;
+                ELSEIF Position_temp = 2   THEN
+                    SET silver_count = silver_count + 1;
+                ELSEIF Position_temp = 3  THEN
+                    SET bronze_count = bronze_count + 1;
+                END IF;
+            END LOOP;
+
+            CLOSE medal_cursor;
+        END BLOCK2;
+
+        BLOCK3: BEGIN
+            DECLARE done_athletes BOOLEAN DEFAULT FALSE;
+            DECLARE Role_temp VARCHAR(255);
+           
+
+            DECLARE athlete_cursor CURSOR FOR
+            SELECT Role
+            FROM roles natural join belongs
+            WHERE Teamid IN (SELECT Teamid FROM Team WHERE Countryname = country_name);
+
+            DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_athletes = TRUE;
+            OPEN athlete_cursor;
+
+            -- Loop through each athlete role
+            athlete_loop: LOOP
+                FETCH athlete_cursor INTO Role_temp;
+                IF done_athletes THEN
+                    LEAVE athlete_loop;
+                END IF;
+
+                -- Update counts based on role
+                SET total_players_count = total_players_count + (Role_temp = 'Player');
+                SET total_coaches_count = total_coaches_count + (Role_temp = 'Coach');
+            END LOOP;
+
+            CLOSE athlete_cursor;
+
+
+        END BLOCK3;
+
+        SET total_medals_count = gold_count + silver_count + bronze_count;
+
+        -- Insert results into temporary table
+        INSERT INTO stats
+        VALUES (country_name, gold_count, silver_count, bronze_count, total_medals_count,total_players_count, total_coaches_count);
+
+    END LOOP;
+
+    CLOSE country_cursor;
+
+    -- Display the results
+    SELECT * FROM stats
+    order by TotalMedals DESC
+    limit 10;
+
+    -- Drop the temporary table
+    DROP TEMPORARY TABLE IF EXISTS stats;
+END BLOCK1;
+*/
+
+call DisplayCountryStatistics();
+
+
+
+
+

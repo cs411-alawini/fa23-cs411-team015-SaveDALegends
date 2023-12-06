@@ -1,0 +1,129 @@
+<!-- player_details.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .header,
+        .row {
+            display: flex;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .header {
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+
+        h3,
+        p {
+            margin: 0;
+        }
+
+        .name,
+        .gender,
+        .role,
+        .team,
+        .country {
+            flex: 1;
+        }
+
+        .search-bar {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Player Details</h1>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" oninput="filterPlayers()" placeholder="Search by name">
+    </div>
+
+    <!-- Header row -->
+    <div class="container">
+        <div class="header">
+            <div class="name">Name</div>
+            <div class="gender">Gender</div>
+            <div class="role">Role</div>
+            <div class="team">Team</div>
+            <div class="country">Country</div>
+        </div>
+
+        <!-- Data rows -->
+        <% for (let i=0; i < results.length; i++) { %>
+            <div class="row">
+                <div class="name">
+                    <%= results[i].name %>
+                </div>
+                <div class="gender">
+                    <%= results[i].gender %>
+                </div>
+                <div class="role">
+                    <%= results[i].role %>
+                </div>
+                <div class="team">
+                    <a href="/team-details/<%= results[i].teamname %>">
+                        <%= results[i].teamname %>
+                    </a>
+                </div>
+                <div class="country">
+                    <a href="/country_sport/<%= results[i].countryname %>">
+                        <%= results[i].countryname %>
+                    </a>
+                </div>
+            </div>
+            <% } %>
+    </div>
+
+    <script>
+        function filterPlayers() {
+            var input, filter, container, rows, nameColumn, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            container = document.querySelector(".container");
+            rows = container.getElementsByClassName("row");
+
+            for (var i = 0; i < rows.length; i++) {
+                nameColumn = rows[i].getElementsByClassName("name")[0];
+                txtValue = nameColumn.textContent || nameColumn.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

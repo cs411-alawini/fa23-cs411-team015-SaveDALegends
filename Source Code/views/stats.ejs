@@ -1,0 +1,164 @@
+<!-- views/stats.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medal Statistics</title>
+
+    <!-- Include Chartist.js library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        /* Added styles for chart titles */
+        .chart-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Medal Statistics</h1>
+
+    <!-- Gold Medals Pie Chart -->
+    <div class="chart-container" id="goldChart">
+        <div class="chart-title">Gold Medals</div>
+    </div>
+
+    <!-- Silver Medals Pie Chart -->
+    <div class="chart-container" id="silverChart">
+        <div class="chart-title">Silver Medals</div>
+    </div>
+
+    <!-- Bronze Medals Pie Chart -->
+    <div class="chart-container" id="bronzeChart">
+        <div class="chart-title">Bronze Medals</div>
+    </div>
+
+    <!-- Total Medals Pie Chart -->
+    <div class="chart-container" id="totalChart">
+        <div class="chart-title">Total Medals</div>
+    </div>
+
+    <!-- Number of Players Pie Chart -->
+    <div class="chart-container" id="playersChart">
+        <div class="chart-title">Number of Players</div>
+    </div>
+
+    <!-- Number of Coaches Pie Chart -->
+    <div class="chart-container" id="coachesChart">
+        <div class="chart-title">Number of Coaches</div>
+    </div>
+
+    <script>
+        function createChartistChart(data, options, containerId) {
+            new Chartist.Pie('#' + containerId, data, options);
+        }
+
+        // Chart data for each category
+        // Gold Medals
+        createChartistChart(
+            {
+                labels: [<% for(let country of results[0]) { %> '<%= country.Countryname %>', <% } %>],
+        series: [<% for (let country of results[0]) { %><%= country.GoldMedals %>, <% } %>]
+            },
+        {
+            width: '800px', // Set the width of the chart
+                height: '800px', // Set the height of the chart
+                    title: 'Gold Medals'
+        },
+        'goldChart'
+        );
+
+        // Silver Medals
+        createChartistChart(
+            {
+                labels: [<% for(let country of results[0]) { %> '<%= country.Countryname %>', <% } %>],
+        series: [<% for (let country of results[0]) { %><%= country.SilverMedals %>, <% } %>]
+            },
+        {
+            width: '800px', // Set the width of the chart
+                height: '800px', // Set the height of the chart
+                    title: 'Silver Medals'
+        },
+        'silverChart'
+        );
+
+        // Bronze Medals
+        createChartistChart(
+            {
+                labels: [<% for(let country of results[0]) { %> '<%= country.Countryname %>', <% } %>],
+        series: [<% for (let country of results[0]) { %><%= country.BronzeMedals %>, <% } %>]
+            },
+        {
+            width: '800px', // Set the width of the chart
+                height: '800px', // Set the height of the chart
+                    title: 'Bronze Medals'
+        },
+        'bronzeChart'
+        );
+
+        // Total Medals
+        createChartistChart(
+            {
+                labels: [<% for(let country of results[0]) { %> '<%= country.Countryname %>', <% } %>],
+        series: [<% for (let country of results[0]) { %><%= country.TotalMedals %>, <% } %>]
+            },
+        {
+            width: '800px', // Set the width of the chart
+                height: '800px', // Set the height of the chart
+                    title: 'Total Medals'
+        },
+        'totalChart'
+        );
+
+        // Number of Players
+        createChartistChart(
+            {
+                labels: [<% for(let country of results[0]) { %> '<%= country.Countryname %>', <% } %>],
+        series: [<% for (let country of results[0]) { %><%= country.TotalPlayers %>, <% } %>]
+            },
+        {
+            width: '800px', // Set the width of the chart
+                height: '800px', // Set the height of the chart
+                    title: 'Number of Players'
+        },
+        'playersChart'
+        );
+
+        // Number of Coaches
+        createChartistChart(
+            {
+                labels: [<% for(let country of results[0]) { %> '<%= country.Countryname %>', <% } %>],
+        series: [<% for (let country of results[0]) { %><%= country.TotalCoaches %>, <% } %>]
+            },
+        {
+            width: '800px', // Set the width of the chart
+                height: '800px', // Set the height of the chart
+                    title: 'Number of Coaches'
+        },
+        'coachesChart'
+        );
+    </script>
+</body>
+
+</html>

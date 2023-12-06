@@ -1,0 +1,180 @@
+<!-- medals.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medals Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .header,
+        .row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .header {
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+
+        h3,
+        p {
+            margin: 0;
+        }
+
+        .country {
+            flex: 2;
+        }
+
+        .medals,
+        .players {
+            flex: 1;
+            text-align: center;
+        }
+
+        .search-bar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-left: 5px;
+        }
+
+        .buttons-bar {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .button {
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Buttons -->
+    <div class="buttons-bar">
+        <a href="/search-by-sport">
+            <button class="button">By Sport</button>
+        </a>
+        <a href="/search-by-player">
+            <button class="button" onclick="searchByPlayer()">By Player</button>
+        </a>
+        <div class="like-buttons">
+            <button class="button" onclick="redirectToLikedCountry()">Liked Country</button>
+            <button class="button" onclick="redirectToLikedSport()">Liked Sport</button>
+            <button class="button" onclick="redirectToStatsPage()">Visualize</button>
+        </div>
+    </div>
+
+    <h1>All Countries by Medals</h1>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+        <label for="search">Search Country:</label>
+        <input type="text" id="search" oninput="filterCountries()">
+    </div>
+
+    <!-- Header row -->
+    <div class="header">
+        <div class="country">Country</div>
+        <div class="medals">Medals</div>
+        <div class="players">Players</div>
+    </div>
+
+    <!-- Updated Data rows section with clickable country names -->
+    <% for (let i=0; i < results.length; i++) { %>
+        <div class="row">
+            <div class="country">
+                <h3>
+                    <a href="/country_sport/<%= results[i].countryname %>">
+                        <%= results[i].countryname %>
+                    </a>
+                </h3>
+            </div>
+            <div class="medals">
+                <p>
+                    <%= results[i].total_medals %>
+                </p>
+            </div>
+            <div class="players">
+                <p>
+                    <%= results[i].total_players %>
+                </p>
+            </div>
+        </div>
+        <% } %>
+
+            <script>
+                function filterCountries() {
+                    const searchInput = document.getElementById('search').value.toLowerCase();
+                    const rows = document.querySelectorAll('.row');
+
+                    rows.forEach(row => {
+                        const countryName = row.querySelector('.country h3').innerText.toLowerCase();
+                        if (countryName.includes(searchInput)) {
+                            row.style.display = 'flex';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+
+                function searchBySport() {
+                    // Implement your search by sport logic here
+                    console.log('Searching by sport...');
+                }
+
+                function searchByPlayer() {
+                    // Implement your search by player logic here
+                    console.log('Searching by player...');
+                }
+
+                function redirectToLikedCountry() {
+                        window.location.href = '/liked_country';
+                    }
+
+                function redirectToLikedSport() {
+                    window.location.href = '/liked_sport';
+                }
+
+                function redirectToStatsPage() {
+                        window.location.href = '/stats';
+                }
+            </script>
+</body>
+
+</html>

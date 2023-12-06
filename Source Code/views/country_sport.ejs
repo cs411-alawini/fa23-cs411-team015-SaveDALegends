@@ -1,0 +1,99 @@
+<!-- country_sport.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Sport Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .header,
+        .row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .header {
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+
+        h3,
+        p {
+            margin: 0;
+        }
+
+        .sport {
+            flex: 2;
+        }
+
+        .team,
+        .medal {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            /* Add this to make the teamname clickable /
+            color: blue; / Add this to show that it's a clickable link /
+            text-decoration: underline; / Add this to underline the teamname */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sport and Team Details for <%= countryname %>
+    </h1>
+
+    <!-- Data rows -->
+    <div class="container">
+        <!-- Header row -->
+        <div class="header">
+            <div class="sport">Sport</div>
+            <div class="team">Team</div>
+            <div class="medal">Medal</div>
+        </div>
+
+    
+    <!-- Data rows -->
+    <% for (let i=0; i < results.length; i++) { %>
+        <div class="row">
+            <div class="sport">
+                <a href='/search-results?query=<%= results[i].sportname %>'>
+                    <h3>
+                        <%= results[i].sportname %>
+                    </h3>
+                </a>
+
+            </div>
+            <div class="team" onclick="redirectToTeamDetails('<%= results[i].teamname %>')">
+                <p>
+                    <a href="/team-details/<%= results[i].teamname %>">
+                        <%= results[i].teamname %>
+                    </a>
+                </p>
+            </div>
+            <div class="medal">
+                <p>
+                    <%= results[i].Medal %>
+                </p>
+            </div>
+        </div>
+        <% } %>
+</body>
+
+</html>
