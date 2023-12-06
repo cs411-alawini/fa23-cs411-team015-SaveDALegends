@@ -1,0 +1,99 @@
+<!-- all_countries.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Sports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .buttons-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .go-back-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="buttons-bar">
+            <!-- Go Back Button -->
+            <a class="go-back-button" href="/liked_sport">Go Back</a>
+        </div>
+
+        <!-- Add Sport Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Sport</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Add a form for each sport with a hidden input for the country name -->
+                <% for (let i=0; i < results.length; i++) { %>
+                    <tr>
+                        <td>
+                            <a href='/search-results?query=<%= results[i].sportname %>'>
+                                <%= results[i].sportname %>
+                            </a>
+                        </td>
+                        <td>
+                            <form action="/like_sport" method="post">
+                                <input type="hidden" name="sportid" value="<%= results[i].sportid %>">
+                                <button class="go-back-button" type="submit">+</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+
+        <!-- Include your JavaScript if needed -->
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,137 @@
+<!-- liked_country.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liked Countries</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .header,
+        .row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .header {
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+
+        h3,
+        p {
+            margin: 0;
+        }
+
+        .country {
+            flex: 2;
+        }
+
+        .actions {
+            flex: 1;
+            text-align: center;
+        }
+
+        .search-bar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-left: 5px;
+        }
+
+        .buttons-bar {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .button {
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Add Country Button -->
+    <div class="buttons-bar">
+        <button class="button" onclick="addCountry()">Add Country</button>
+    </div>
+
+    <div class="buttons-bar">
+        <button class="go-back-button" onclick="goBack()">Go Back</button>
+    </div>
+
+    <h1>Liked Countries</h1>
+
+    <!-- Header row -->
+    <div class="header">
+        <div class="country">Country</div>
+        <div class="actions">Actions</div>
+    </div>
+
+    <!-- Updated Data rows section with Remove button -->
+    <% for (let i=0; i < results.length; i++) { %>
+        <div class="row">
+            <div class="country">
+                <h3>
+                    <a href="/country_sport/<%= results[i].countryname %>">
+                        <%= results[i].countryname %>
+                    </a>
+                </h3>
+            </div>
+            <div class="actions">
+                <!-- Remove button triggers the hidden form -->
+            <form action="/remove_country" method="post">
+                <input type="hidden" name="countryname" value="<%= results[i].countryname %>">
+                <button class="go-back-button" type="submit">Remove</button>
+            </form>
+            </div>
+        </div>
+        <% } %>
+
+            <script>
+                function addCountry() {
+                    // Redirect to the route that displays all countries
+                    window.location.href = '/all_countries';
+                }
+
+                function goBack() {
+                    // Redirect to the "medals" page
+                    window.location.href = '/medals';
+                }               
+            </script>
+</body>
+
+</html>

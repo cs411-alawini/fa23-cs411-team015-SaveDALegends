@@ -1,0 +1,107 @@
+<!-- team-details.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .header,
+        .row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .header {
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        .athlete-id,
+        .name,
+        .gender,
+        .role,
+        .sport-id,
+        .sport-name {
+            flex: 1;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Team Details for <%= teamname %>
+    </h1>
+
+    <!-- Data rows -->
+    <div class="container">
+        <!-- Header row -->
+        <div class="header">
+            <div class="athlete-id">Athlete ID</div>
+            <div class="name">Name</div>
+            <div class="gender">Gender</div>
+            <div class="role">Role</div>
+            <div class="sport-id">Sport ID</div>
+            <div class="sport-name">Sport Name</div>
+        </div>
+
+        <!-- Data rows -->
+        <% for (let i=0; i < results.length; i++) { %>
+            <div class="row">
+                <div class="athlete-id">
+                    <p>
+                        <%= results[i].Athleteid %>
+                    </p>
+                </div>
+                <div class="name">
+                    <p>
+                        <%= results[i].Name %>
+                    </p>
+                </div>
+                <div class="gender">
+                    <p>
+                        <%= results[i].Gender %>
+                    </p>
+                </div>
+                <div class="role">
+                    <p>
+                        <%= results[i].Role %>
+                    </p>
+                </div>
+                <div class="sport-id">
+                    <p>
+                        <%= results[i].Sportid %>
+                    </p>
+                </div>
+                <div class="sport-name">
+                    <p>
+                        <%= results[i].Sportname %>
+                    </p>
+                </div>
+            </div>
+            <% } %>
+    </div>
+</body>
+
+</html>

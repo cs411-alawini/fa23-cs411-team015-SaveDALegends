@@ -1,0 +1,137 @@
+<!-- sport_details.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .header,
+        .row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .header {
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+
+        h3,
+        p {
+            margin: 0;
+        }
+
+        .sport {
+            flex: 2;
+        }
+
+        .countries,
+        .gold,
+        .silver,
+        .bronze {
+            flex: 1;
+            text-align: center;
+        }
+
+        .search-bar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Sport Details</h1>
+
+    <!-- Search bar -->
+    <div class="search-bar">
+        <label for="search">Search Sport:</label>
+        <input type="text" id="search" oninput="filterSports()">
+    </div>
+
+    <!-- Header row -->
+    <div class="header">
+        <div class="sport">Sport</div>
+        <div class="countries">Countries Participated</div>
+        <div class="gold">Gold Medal Winner</div>
+        <div class="silver">Silver Medal Winner</div>
+        <div class="bronze">Bronze Medal Winner</div>
+    </div>
+
+<!-- Data rows section -->
+<% for (let i=0; i < results.length; i++) { %>
+    <div class="row">
+        <div class="sport">
+            <h3>
+                <%= results[i].Sportname %>
+            </h3>
+        </div>
+        <div class="countries">
+            <p>
+                <a href="/participated_country?sportname=<%= results[i].Sportname %>">
+                    <%= results[i].No_of_Countries_Participated %>
+                </a>
+            </p>
+        </div>
+        <div class="gold">
+            <p><a href="/country_sport/<%= results[i].Gold_Medal_Winner %>">
+                    <%= results[i].Gold_Medal_Winner %>
+                </a></p>
+        </div>
+        <div class="silver">
+            <p><a href="/country_sport/<%= results[i].Silver_Medal_Winner %>">
+                    <%= results[i].Silver_Medal_Winner %>
+                </a></p>
+        </div>
+        <div class="bronze">
+            <p><a href="/country_sport/<%= results[i].Bronze_Medal_Winner %>">
+                    <%= results[i].Bronze_Medal_Winner %>
+                </a></p>
+        </div>
+    </div>
+    <% } %>
+
+            <script>
+                function filterSports() {
+                    const searchInput = document.getElementById('search').value.toLowerCase();
+                    const rows = document.querySelectorAll('.row');
+
+                    rows.forEach(row => {
+                        const sportName = row.querySelector('.sport h3').innerText.toLowerCase();
+                        if (sportName.includes(searchInput)) {
+                            row.style.display = 'flex';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
+</body>
+
+</html>
